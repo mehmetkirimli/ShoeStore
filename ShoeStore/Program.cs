@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Data;
+using ShoeStore.Repositories;
+using ShoeStore.Services;
+using ShoeStore.Services.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +13,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+//DbContext Baðlantýsý
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ShoesDb")));
+
+//Repository ve Service Baðlantýsý
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); // IRepository interface'ini implemente eden Repository sýnýfýný kullanacak.
+builder.Services.AddScoped<IUserService, UserService>(); 
 
 var app = builder.Build();
 
