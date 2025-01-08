@@ -20,7 +20,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //Repository ve Service Baðlantýsý
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); // IRepository interface'ini implemente eden Repository sýnýfýný kullanacak.
-builder.Services.AddScoped<IUserService, UserService>(); 
+builder.Services.AddScoped<IUserService, UserService>();
+
+//AutoMapper Baðlantýsý
+builder.Services.AddAutoMapper(typeof(Program)); // AutoMapper'ýn hangi sýnýflarý eþleþtireceðini belirtiyoruz.
+
 
 var app = builder.Build();
 

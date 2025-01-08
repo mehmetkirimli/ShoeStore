@@ -1,4 +1,7 @@
-﻿using ShoeStore.Entities;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using ShoeStore.DTO;
+using ShoeStore.Entities;
 using ShoeStore.Repositories;
 using ShoeStore.Services.Implementation;
 
@@ -7,10 +10,12 @@ namespace ShoeStore.Services
     public class UserService : IUserService
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IRepository<User> userRepository)
+        public UserService(IRepository<User> userRepository , IMapper mapper)
         {
             this._userRepository = userRepository;
+            this._mapper = mapper;
         }
 
         public async Task AddUserAsync(User user)
@@ -28,9 +33,11 @@ namespace ShoeStore.Services
             return await _userRepository.GetAllAsync();
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<UserDTO> GetUserByIdAsync(int id)
         {
-            return await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
+            UserDTO userDTO = _mapper.Map<UserDTO>(user);
+            return userDTO;
         }
 
         public async Task UpdateUserAsync(User user)
