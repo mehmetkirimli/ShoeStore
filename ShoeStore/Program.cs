@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Data;
 using ShoeStore.Repositories;
+using ShoeStore.Repositories.Implementation;
 using ShoeStore.Services;
 using ShoeStore.Services.Implementation;
 

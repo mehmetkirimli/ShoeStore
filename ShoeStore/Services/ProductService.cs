@@ -1,5 +1,5 @@
 ﻿using ShoeStore.Entities;
-using ShoeStore.Repositories;
+using ShoeStore.Repositories.Implementation;
 using ShoeStore.Services.Implementation;
 
 namespace ShoeStore.Services

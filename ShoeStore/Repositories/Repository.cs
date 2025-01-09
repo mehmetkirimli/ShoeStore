@@ -1,13 +1,14 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Data;
+using ShoeStore.Repositories.Implementation;
 
 namespace ShoeStore.Repositories // Bu sınıf temel CRUD işlemleri yapıcak.
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly AppDbContext _context;
-        private readonly DbSet<T> _dbSet;
+        protected readonly AppDbContext _context; //private olunca alt sınıflar erişemez.(extend)
+        protected readonly DbSet<T> _dbSet;
 
         public Repository(AppDbContext context)
         {

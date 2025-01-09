@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShoeStore.DTO;
 using ShoeStore.Entities;
-using ShoeStore.Repositories;
+using ShoeStore.Repositories.Implementation;
 using ShoeStore.Services.Implementation;
 
 namespace ShoeStore.Services
@@ -18,9 +19,9 @@ namespace ShoeStore.Services
             this._mapper = mapper;
         }
 
-        public async Task AddUserAsync(User user)
+        public async Task AddUserAsync(UserDTO userDto)
         {
-            await _userRepository.AddAsync(user);
+            await _userRepository.AddAsync(_mapper.Map<User>(userDto));
         }
 
         public async Task DeleteUserAsync(int id)
@@ -28,9 +29,10 @@ namespace ShoeStore.Services
             await _userRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-        {
-            return await _userRepository.GetAllAsync();
+        public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
+        {   
+            var list = await _userRepository.GetAllAsync();
+            return (IEnumerable<UserDTO>)_mapper.Map<UserDTO>(list);
         }
 
         public async Task<UserDTO> GetUserByIdAsync(int id)
@@ -40,10 +42,27 @@ namespace ShoeStore.Services
             return userDTO;
         }
 
-        public async Task UpdateUserAsync(User user)
+        public async Task UpdateUserAsync(UserDTO userDto)
         {
-            await _userRepository.UpdateAsync(user);
+            await _userRepository.UpdateAsync(_mapper.Map<User>(userDto));
         }
 
+        public async void RegisterUser(RegisterDTO registerDto)
+        {
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
+
+            var user = new User
+            {
+                FullName = registerDto.FullName,
+                Email = registerDto.Email,
+                Phone = registerDto.Phone,
+                PasswordHash = hashedPassword,  // Hashlenmiş şifreyi veritabanına kaydediyoruz
+                DateCreated = DateTime.Now,
+                LastLogin = DateTime.Now,
+                Addresses = new List<Address>()  // Adres bilgisi olmayabilir
+            };
+
+            await _userRepository.AddAsync(user);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ShoeStore.Repositories
+﻿namespace ShoeStore.Repositories.Implementation
 {
     public interface IRepository<T> where T : class
     {

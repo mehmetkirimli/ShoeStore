@@ -26,7 +26,6 @@ namespace ShoeStore.Entities
         public string Phone { get; set; }  // Telefon numarası
         public DateTime DateCreated { get; set; }  // Hesap oluşturulma tarihi
         public DateTime LastLogin { get; set; }  // Son giriş tarihi
-        public ICollection<Order> Orders { get; set; }  // Kullanıcının verdiği siparişler
         public ICollection<Address> Addresses { get; set; }  // Kullanıcının adresleri
     }
 

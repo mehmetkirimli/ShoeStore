@@ -6,10 +6,10 @@ namespace ShoeStore.Services.Implementation
     public interface IUserService
     {
         Task<UserDTO> GetUserByIdAsync(int id);
-        Task AddUserAsync(User user);
-        Task UpdateUserAsync(User user);
+        Task AddUserAsync(UserDTO userDto);
+        Task UpdateUserAsync(UserDTO userDto);
         Task DeleteUserAsync(int id);
-        Task<IEnumerable<User>> GetAllUsersAsync();
-
+        Task<IEnumerable<UserDTO>> GetAllUsersAsync();
+        void RegisterUser(RegisterDTO registerDto);
     }
 }
