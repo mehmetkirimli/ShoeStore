@@ -27,7 +27,7 @@ namespace ShoeStore.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AddressDTO>> CreateAddress(AddressDTO addressDto)
+        public async Task<ActionResult<AddressDTO>> CreateAddress([FromBody]AddressDTO addressDto)
         {
             await _addressService.AddAddress(addressDto);
             return CreatedAtAction(nameof(GetAddressById), new { id = addressDto.Id }, addressDto);
@@ -56,7 +56,7 @@ namespace ShoeStore.Controllers
             return NoContent();
         }
 
-        [HttpPost]
+        [HttpGet("by-city")]
         public async Task<ActionResult<ICollection<AddressDTO>>> GetAddressesByCity(string city)
         {
             var addresses = await _addressService.GetAddressesByCityAsync(city);
