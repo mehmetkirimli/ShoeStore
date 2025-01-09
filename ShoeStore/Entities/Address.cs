@@ -12,17 +12,17 @@ namespace ShoeStore.Entities
         public int UserId { get; set; }  // Kullanıcı ID'si
 
         [ForeignKey("UserId")]
-        public User User { get; set; }  // Kullanıcı
+        public User? User { get; set; }  // Kullanıcı
 
         [Required]
-        public string Street { get; set; }  // Sokak adı
+        public string? Street { get; set; }  // Sokak adı
 
         [Required]
-        public string City { get; set; }  // Şehir
-        public string PostalCode { get; set; }  // Posta kodu
+        public string? City { get; set; }  // Şehir
+        public string? PostalCode { get; set; }  // Posta kodu
 
         [Required]
-        public string Country { get; set; }  // Ülke
+        public string? Country { get; set; }  // Ülke
     }
 
 }

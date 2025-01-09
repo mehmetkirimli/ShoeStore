@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ShoeStore.DTO;
 using ShoeStore.Entities;
 using ShoeStore.Repositories.Implementation;
@@ -21,6 +19,7 @@ namespace ShoeStore.Services
 
         public async Task AddUserAsync(UserDTO userDto)
         {
+            //Todo : Bu metod admin için kullanılabilir, hızlı bir şekilde kullanıcı eklemek için
             await _userRepository.AddAsync(_mapper.Map<User>(userDto));
         }
 
@@ -47,7 +46,7 @@ namespace ShoeStore.Services
             await _userRepository.UpdateAsync(_mapper.Map<User>(userDto));
         }
 
-        public async void RegisterUser(RegisterDTO registerDto)
+        public async Task<UserDTO> RegisterUser(RegisterDTO registerDto)
         {
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
 
@@ -63,6 +62,13 @@ namespace ShoeStore.Services
             };
 
             await _userRepository.AddAsync(user);
+            return _mapper.Map<UserDTO>(user);
         }
+
+        public bool ValidateUserPassword(string enteredPassword, string storedPasswordHash) // Kullanıcı girişinde şifre kontrolü
+        {
+            return BCrypt.Net.BCrypt.Verify(enteredPassword, storedPasswordHash);
+        }
+
     }
 }

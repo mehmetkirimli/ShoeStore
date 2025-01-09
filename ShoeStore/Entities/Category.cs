@@ -9,8 +9,8 @@ namespace ShoeStore.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }  // Kategori ID'si
         [Required]
-        public string Name { get; set; }  // Kategori adı
-        public ICollection<Product> Products { get; set; }  // Bu kategorideki ürünler
+        public string? Name { get; set; }  // Kategori adı
+        public ICollection<Product>? Products { get; set; }  // Bu kategorideki ürünler
     }
 
 }

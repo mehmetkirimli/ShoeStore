@@ -4,6 +4,6 @@ namespace ShoeStore.Repositories.Implementation
 {
     public interface IAddressRepository : IRepository<Address>
     {
-        Task<List<Address>> GetAddressesByCityAsync(string city);
+        Task<ICollection<Address>> GetAddressesByCityAsync(string city);
     }
 }

@@ -10,7 +10,7 @@ namespace ShoeStore.Repositories
         public AddressRepository(AppDbContext context) : base(context)
         {
         }
-        public async Task<List<Address>> GetAddressesByCityAsync(string city)
+        public async Task<ICollection<Address>> GetAddressesByCityAsync(string city)
         {
             return await _dbSet.Where(x => x.City == city).ToListAsync();
         }

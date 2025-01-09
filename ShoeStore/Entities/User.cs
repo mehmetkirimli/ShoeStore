@@ -12,21 +12,21 @@ namespace ShoeStore.Entities
 
         [Required]
         [StringLength(40)]
-        public string FullName { get; set; }  // Kullanıcı adı
+        public string? FullName { get; set; }  // Kullanıcı adı
 
         [Required]
-        public string Email { get; set; }  // E-posta
+        public string? Email { get; set; }  // E-posta
 
         [Required]
-        public string PasswordHash { get; set; }  // Şifre (hash'lenmiş)
+        public string? PasswordHash { get; set; }  // Şifre (hash'lenmiş)
 
         [Required]
         [StringLength(11)]
         [RegularExpression(@"^\d{11}$", ErrorMessage = "Phone Number must be 11 digits.")]
-        public string Phone { get; set; }  // Telefon numarası
+        public string? Phone { get; set; }  // Telefon numarası
         public DateTime DateCreated { get; set; }  // Hesap oluşturulma tarihi
         public DateTime LastLogin { get; set; }  // Son giriş tarihi
-        public ICollection<Address> Addresses { get; set; }  // Kullanıcının adresleri
+        public ICollection<Address>? Addresses { get; set; }  // Kullanıcının adresleri
     }
 
 }

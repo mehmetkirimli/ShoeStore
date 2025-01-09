@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShoeStore.DTO;
 using ShoeStore.Entities;
 using ShoeStore.Services.Implementation;
 
@@ -16,7 +17,7 @@ namespace ShoeStore.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<UserDTO>> GetUserById(int id)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
@@ -27,20 +28,27 @@ namespace ShoeStore.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser(User user)
+        public async Task<ActionResult<UserDTO>> CreateUser(UserDTO userDto)
         {
-            await _userService.AddUserAsync(user);
-            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
+            await _userService.AddUserAsync(userDto);
+            return CreatedAtAction(nameof(GetUserById), new { id = userDto.Id }, userDto);
+        }
+
+        [HttpPost("register")]
+        public async Task<ActionResult<RegisterDTO>> RegisterUser(RegisterDTO registerDto)
+        {
+            await Task.Run(() => _userService.RegisterUser(registerDto));
+            return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, User user)
+        public async Task<IActionResult> UpdateUser(int id, UserDTO userDto)
         {
-            if (id != user.Id)
+            if (id != userDto.Id)
             {
                 return BadRequest();
             }
-            await _userService.UpdateUserAsync(user);
+            await _userService.UpdateUserAsync(userDto);
             return NoContent();
         }
 
@@ -57,7 +65,7 @@ namespace ShoeStore.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsers()
         {
             return Ok(await _userService.GetAllUsersAsync());
         }
