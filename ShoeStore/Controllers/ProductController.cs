@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShoeStore.DTO;
 using ShoeStore.Entities;
 using ShoeStore.Services.Implementation;
 
@@ -9,6 +10,7 @@ namespace ShoeStore.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+       
 
         public ProductController(IProductService productService)
         {
@@ -16,7 +18,7 @@ namespace ShoeStore.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProductById(int id)
+        public async Task<ActionResult<ProductDTO>> GetProductById(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
@@ -27,14 +29,14 @@ namespace ShoeStore.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> CreateProduct(Product product)
+        public async Task<ActionResult<ProductDTO>> CreateProduct(ProductDTO product)
         {
             await _productService.AddProductAsync(product);
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, Product product)
+        public async Task<IActionResult> UpdateProduct(int id, ProductDTO product)
         {
             if (id != product.Id)
             {
@@ -57,9 +59,16 @@ namespace ShoeStore.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts()
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
+            return Ok(products);
+        }
+
+        [HttpGet("category/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductListByCategory(int categoryId)
+        {
+            var products = await _productService.GetProductListByCategory(categoryId);
             return Ok(products);
         }
 

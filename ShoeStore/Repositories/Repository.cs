@@ -1,4 +1,5 @@
 ﻿
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using ShoeStore.Data;
 using ShoeStore.Repositories.Implementation;
@@ -46,6 +47,18 @@ namespace ShoeStore.Repositories // Bu sınıf temel CRUD işlemleri yapıcak.
         {
            _dbSet.Update(entity);
            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<T>> FindByConditionAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _dbSet.Where(predicate);
+            
+            foreach(var item in includes) 
+            {
+                query = query.Include(item);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }

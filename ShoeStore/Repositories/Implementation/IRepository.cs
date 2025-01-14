@@ -1,4 +1,6 @@
-﻿namespace ShoeStore.Repositories.Implementation
+﻿using System.Linq.Expressions;
+
+namespace ShoeStore.Repositories.Implementation
 {
     public interface IRepository<T> where T : class
     {
@@ -7,5 +9,7 @@
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id); // T entity olabilir de
+        Task<List<T>> FindByConditionAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
+
     }
 }

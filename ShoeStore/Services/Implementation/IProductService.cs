@@ -1,13 +1,15 @@
-﻿using ShoeStore.Entities;
+﻿using ShoeStore.DTO;
+using ShoeStore.Entities;
 
 namespace ShoeStore.Services.Implementation
 {
     public interface IProductService
     {
-        Task<Product> GetProductByIdAsync(int id);
-        Task AddProductAsync (Product product);
-        Task UpdateProductAsync(Product product);
+        Task<ProductDTO> GetProductByIdAsync(int id);
+        Task AddProductAsync (ProductDTO productDto);
+        Task UpdateProductAsync(ProductDTO productDto);
         Task DeleteProductAsync(int id);
-        Task<IEnumerable<Product>> GetAllProductsAsync();
+        Task<IEnumerable<ProductDTO>> GetAllProductsAsync();
+        Task<List<ProductDTO>> GetProductListByCategory(int categoryId);
     }
 }
