@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShoeStore.DTO;
 using ShoeStore.Services;
+using ShoeStore.Services.Implementation;
 
 namespace ShoeStore.Controllers
 {
@@ -8,9 +9,9 @@ namespace ShoeStore.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(CategoryService categoryService)
+        public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }

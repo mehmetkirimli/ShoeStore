@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using ShoeStore.DTO;
 using ShoeStore.Entities;
 using ShoeStore.Repositories.Implementation;
@@ -7,7 +6,7 @@ using ShoeStore.Services.Implementation;
 
 namespace ShoeStore.Services
 {
-    public class CategoryService : Profile, ICategoryService
+    public class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _categoryRepository;
         private readonly IMapper mappper;

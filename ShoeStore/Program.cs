@@ -24,6 +24,8 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); // IRep
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 //AutoMapper Baðlantýsý
 builder.Services.AddAutoMapper(typeof(Program)); // AutoMapper'ýn hangi sýnýflarý eþleþtireceðini belirtiyoruz.

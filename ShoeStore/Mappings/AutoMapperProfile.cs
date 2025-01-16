@@ -11,17 +11,19 @@ namespace ShoeStore.Mappings
             //Entity to DTO
             CreateMap<User,UserDTO>();
             CreateMap<Product, ProductDTO>();
-            CreateMap<Category, CategoryDTO>();
+            CreateMap<Category, CategoryDTO>().ForMember(member => member.Products, opt => opt.Ignore());
             CreateMap<Order, OrderDTO>();
             CreateMap<OrderItem, OrderItemDTO>();
             CreateMap<Payment, PaymentDTO>();
             CreateMap<Address, AddressDTO>();
 
-            //DTO to Entity
 
+
+
+            //DTO to Entity
             CreateMap<UserDTO, User>();
             CreateMap<ProductDTO, Product>();
-            CreateMap<CategoryDTO, Category>();
+            CreateMap<CategoryDTO, Category>().ForMember(member => member.Products, opt => opt.Ignore());
             CreateMap<OrderDTO, Order>();
             CreateMap<OrderItemDTO, OrderItem>();
             CreateMap<PaymentDTO, Payment>();
