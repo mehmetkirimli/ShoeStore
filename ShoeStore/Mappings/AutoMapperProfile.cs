@@ -18,8 +18,6 @@ namespace ShoeStore.Mappings
             CreateMap<Address, AddressDTO>();
 
 
-
-
             //DTO to Entity
             CreateMap<UserDTO, User>();
             CreateMap<ProductDTO, Product>();
@@ -33,3 +31,4 @@ namespace ShoeStore.Mappings
         }
     }
 }
+
