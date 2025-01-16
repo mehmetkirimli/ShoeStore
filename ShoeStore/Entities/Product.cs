@@ -14,7 +14,7 @@ namespace ShoeStore.Entities
         public string Name { get; set; }  // Ürün adı
 
         [StringLength(500)]
-        public string Description { get; set; }  // Ürün açıklaması
+        public string? Description { get; set; }  // Ürün açıklaması
 
         [Required]
         [Range(0, double.MaxValue)]
@@ -24,7 +24,7 @@ namespace ShoeStore.Entities
         [Range(0, int.MaxValue)]
         public int Stock { get; set; }  // Ürün stoğu
 
-        public ICollection<ProductImage> ProductImages { get; set; }  // Ürüne ait görseller
+        public ICollection<ProductImage>? ProductImages { get; set; }  // Ürüne ait görseller
 
         [Required]
         public int CategoryId { get; set; }  // Ürünün kategorisi (ID ile)
@@ -32,7 +32,7 @@ namespace ShoeStore.Entities
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }  // Kategoriye referans
 
-        public ICollection<OrderItem> OrderItems { get; set; }  // Siparişlerdeki ürünler
+        public ICollection<OrderItem>? OrderItems { get; set; }  // Siparişlerdeki ürünler
     }
 
 

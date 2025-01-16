@@ -9,6 +9,7 @@ namespace ShoeStore.DTO
         public decimal Amount { get; set; } // Zorunlu
         public PaymentMethod Method { get; set; } // Enum
         public PaymentStatus Status { get; set; } // Enum
+        public DateTime PaymentDate { get; set; }
     }
 
 }

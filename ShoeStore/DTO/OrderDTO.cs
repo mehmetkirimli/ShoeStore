@@ -9,6 +9,8 @@ namespace ShoeStore.DTO
         public List<OrderItemDTO> OrderItems { get; set; }
         public OrderStatus Status { get; set; } // Enum
         public DateTime OrderDate { get; set; }
+        public decimal TotalAmount { get; set; }
+        public int? PaymentId { get; set; }
     }
 
 }
