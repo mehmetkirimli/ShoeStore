@@ -7,7 +7,7 @@ namespace ShoeStore.Services.Implementation
     public interface IOrderService
     {
         Task<OrderDTO> GetOrderByIdAsync(int id);
-        Task AddOrderAsync (OrderDTO orderDTO);
+        Task AddOrderAsync (OrderWithPaymentDTO dTO);
         Task UpdateOrderAsync(OrderDTO orderDTO);
         Task DeleteOrderAsync(int id);
         Task<IEnumerable<OrderDTO>> GetAllOrderAsync();

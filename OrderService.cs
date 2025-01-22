@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using ShoeStore.DTO;
 using ShoeStore.Entities;
 using ShoeStore.Enumarations;
@@ -22,12 +22,12 @@ namespace ShoeStore.Services
 
         public async Task AddOrderAsync(OrderWithPaymentDTO dto)
         {
-            using (var transaction = await _orderRepository.BeginTransactionAsync())
+            using(var transaction = await _orderRepository.BeginTransaction())
             {
-                try
+                try 
                 {
                     // create payment
-                    await _paymentService.AddPayment(dto.paymentDto);
+                    await _paymentService.AddPayment(dto.Payment);
 
                     // create order
                     var order = _mapper.Map<Order>(dto);
