@@ -30,10 +30,10 @@ namespace ShoeStore.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<OrderDTO>> CreateOrder(OrderDTO orderDto)
+        public async Task<ActionResult<OrderDTO>> CreateOrder(OrderWithPaymentDTO dto)
         {
-            await _orderService.AddOrderAsync(orderDto);
-            return CreatedAtAction(nameof(GetOrderById), new { id = orderDto.Id }, orderDto);
+            await _orderService.AddOrderAsync(dto);
+            return CreatedAtAction(nameof(GetOrderById), new { id = dto.orderDto.Id }, dto.orderDto);
         }
 
         [HttpPut("{id}")]

@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ShoeStore.Repositories.Implementation
 {
@@ -10,6 +11,6 @@ namespace ShoeStore.Repositories.Implementation
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id); // T entity olabilir de
         Task<List<T>> FindByConditionAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
-
+        Task<IDbContextTransaction> BeginTransactionAsync();
     }
 }

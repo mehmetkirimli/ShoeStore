@@ -26,14 +26,23 @@ namespace ShoeStore.Services
             {
                 try
                 {
-                    // create payment
-                    await _paymentService.AddPayment(dto.paymentDto);
 
-                    // create order
-                    var order = _mapper.Map<Order>(dto);
+                    //create order
+                    var order = _mapper.Map<Order>(dto.orderDto);
                     await _orderRepository.AddAsync(order);
 
+                    //create payment and associate with orderId
+                    var payment = _mapper.Map<Payment>(dto.paymentDto);
+                    payment.OrderId = order.Id;
+                    await _paymentService.AddPayment(_mapper.Map<PaymentDTO>(payment));
+
+
+                    order.Payment = payment;
+                    await _orderRepository.UpdateAsync(order);
+
                     await transaction.CommitAsync();
+
+
 
                 }
                 catch (Exception e)

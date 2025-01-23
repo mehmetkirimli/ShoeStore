@@ -1,6 +1,7 @@
 ﻿
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using ShoeStore.Data;
 using ShoeStore.Repositories.Implementation;
 
@@ -59,6 +60,11 @@ namespace ShoeStore.Repositories // Bu sınıf temel CRUD işlemleri yapıcak.
             }
 
             return await query.ToListAsync();
+        }
+
+        public Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return _context.Database.BeginTransactionAsync();
         }
     }
 }
