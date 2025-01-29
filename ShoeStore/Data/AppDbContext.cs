@@ -37,13 +37,6 @@ namespace ShoeStore.Data
                 .HasForeignKey(o => o.UserId)
                 .OnDelete(DeleteBehavior.Restrict);  // Kullanıcı silindiğinde siparişler silinmez
 
-            // Order ve Payment arasındaki ilişki (Payment nullable)
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.Payment)  // Siparişin bir ödeme kaydı olabilir
-                .WithOne(p => p.Order)  // Ödeme yalnızca bir siparişle ilişkili olabilir
-                .HasForeignKey<Payment>(p => p.OrderId)
-                .OnDelete(DeleteBehavior.SetNull);  // Ödeme silindiğinde siparişin ödeme bilgisi null olur
-
             // Order ve OrderItem arasındaki ilişki
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.Order)  // Sipariş kalemi bir siparişe aittir

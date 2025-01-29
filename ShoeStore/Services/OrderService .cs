@@ -20,37 +20,50 @@ namespace ShoeStore.Services
             this._paymentService = paymentService;
         }
 
-        public async Task AddOrderAsync(OrderWithPaymentDTO dto)
+        public async Task AddOrderAsync(OrderDTO dto)
         {
-            using (var transaction = await _orderRepository.BeginTransactionAsync())
+            var order = _mapper.Map<Order>(dto);
+            order.OrderCreateStatus = OrderCreateStatus.Created;  // Durumu "Oluşturuluyor" olarak ayarla.
+
+            await _orderRepository.AddAsync(order);
+        }
+
+        public async Task AddOrderItemAsync(int orderId, OrderItemDTO dto)
+        {
+            var orderItem = _mapper.Map<OrderItem>(dto);
+            orderItem.OrderId = orderId;  // İlgili order'a eklenmesi sağlanır.
+
+            var orderDto = GetOrderByIdAsync(orderId);  // Order'a eklenir.
+            var order = _mapper.Map<Order>(orderDto);
+            if(order.OrderItems == null)
             {
-                try
-                {
-
-                    //create order
-                    var order = _mapper.Map<Order>(dto.orderDto);
-                    await _orderRepository.AddAsync(order);
-
-                    //create payment and associate with orderId
-                    var payment = _mapper.Map<Payment>(dto.paymentDto);
-                    payment.OrderId = order.Id;
-                    await _paymentService.AddPayment(_mapper.Map<PaymentDTO>(payment));
-
-
-                    order.Payment = payment;
-                    await _orderRepository.UpdateAsync(order);
-
-                    await transaction.CommitAsync();
-
-
-
-                }
-                catch (Exception e)
-                {
-                    await transaction.RollbackAsync();
-                    throw new Exception("Transaction failed : " + e.Message);
-                }
+                order.OrderItems = new List<OrderItem>();
             }
+            order.OrderItems.Add(orderItem);
+            order.OrderCreateStatus = OrderCreateStatus.ProductsAdded;  // Durumu "Ürünler Eklendi,Ödeme yapılmadı" olarak ayarla.
+
+            await _orderRepository.UpdateAsync(order);
+        }
+
+        public async Task<OrderDTO> AddPaymentAsync(int orderId, PaymentDTO dto)
+        {
+            // Ödeme işlemi yapılır.
+            dto.OrderId = orderId;  // Ödeme ile ilgili Order'ın Id'si belirtilir.
+
+            await _paymentService.AddPayment(dto); // burada süreç uzun olacak , ödeme işlemi yapılacak. Banka ile haberleşecek , ödeme başarılı olursa aşağıdaki işlemler yapılacak.
+                                                   // Ödeme başarılıysa, Order'ın durumunu "Onaylandı" yapabiliriz.
+            var paymentDTO = await _paymentService.GetPaymentByIdAsync(dto.Id);
+
+            if (paymentDTO.Status == PaymentStatus.Completed)
+            {
+                var orderToUpdate = await _orderRepository.GetByIdAsync(orderId);
+                orderToUpdate.OrderStatus = OrderStatus.Confirmed;  // Durumu "Onaylandı" olarak ayarla.
+                orderToUpdate.OrderCreateStatus = OrderCreateStatus.Completed;  // Durumu "Ödeme Tamamlandı" olarak ayarla.
+                await _orderRepository.UpdateAsync(orderToUpdate);
+            }
+
+            var finalOrder = await _orderRepository.GetByIdAsync(orderId);
+            return _mapper.Map<OrderDTO>(finalOrder);
         }
 
         public async Task DeleteOrderAsync(int id)

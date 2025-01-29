@@ -22,7 +22,7 @@ namespace ShoeStore.Mappings
             CreateMap<UserDTO, User>();
             CreateMap<ProductDTO, Product>();
             CreateMap<CategoryDTO, Category>().ForMember(member => member.Products, opt => opt.Ignore());
-            CreateMap<OrderDTO, Order>();
+            CreateMap<OrderDTO, Order>().ForMember(member => member.OrderCreateStatus , opt => opt.Ignore());
             CreateMap<OrderItemDTO, OrderItem>();
             CreateMap<PaymentDTO, Payment>();
             CreateMap<AddressDTO, Address>();

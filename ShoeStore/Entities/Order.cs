@@ -17,8 +17,9 @@ namespace ShoeStore.Entities
         public decimal TotalAmount { get; set; }  // Sipariş toplam tutar
         [Required]
         public OrderStatus OrderStatus { get; set; }  // Sipariş durumu (örneğin "Hazırlanıyor", "Kargoya Verildi")
-        public Payment Payment { get; set; }  // Ödeme bilgisi
         public ICollection<OrderItem>? OrderItems { get; set; }  // Sipariş içindeki ürünler
+        [Required]
+        public OrderCreateStatus OrderCreateStatus { get; set; }  // Sepet oluşturma Durumu oluşturma durumu (örneğin "Başarılı", "Başarısız")
     }
 
 }

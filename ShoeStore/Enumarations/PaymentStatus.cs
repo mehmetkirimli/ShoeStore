@@ -2,9 +2,9 @@
 {
     public enum PaymentStatus
     {
-        Pending,
-        Completed,
-        Failed,
-        Refunded
+        Pending,   // Ödeme bekleniyor
+        Completed, // Ödeme tamamlandı
+        Failed,     // Ödeme başarısız
+        Refunded    // İade edildi
     }
 }
