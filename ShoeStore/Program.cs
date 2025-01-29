@@ -28,6 +28,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IOrderItemService, OrderItemService>();
 
 //AutoMapper Baðlantýsý
 builder.Services.AddAutoMapper(typeof(Program)); // AutoMapper'ýn hangi sýnýflarý eþleþtireceðini belirtiyoruz.

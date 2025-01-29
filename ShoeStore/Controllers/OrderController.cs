@@ -36,6 +36,21 @@ namespace ShoeStore.Controllers
             return CreatedAtAction(nameof(GetOrderById), new { id = dto.Id }, dto);
         }
 
+        [HttpPost("{orderId}/order-items")]
+        public async Task<ActionResult<OrderDTO>> AddOrderItem(int orderId,[FromBody] OrderItemDTO dto)
+        {
+            await _orderService.AddOrderItemAsync(orderId, dto);
+            var updatedOrder = await _orderService.GetOrderByIdAsync(orderId);
+            return CreatedAtAction(nameof(GetOrderById), new { id = orderId }, updatedOrder);
+        }
+
+        [HttpPost("{orderId}/payment")]
+        public async Task<ActionResult<OrderDTO>> AddPayment(int orderId,[FromBody] PaymentDTO dto)
+        {
+            var updatedOrder = await _orderService.AddPaymentAsync(orderId, dto);
+            return CreatedAtAction(nameof(GetOrderById), new { id = orderId }, updatedOrder);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(int id, OrderDTO orderDTO)
         {
