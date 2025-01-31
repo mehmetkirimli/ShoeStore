@@ -11,11 +11,13 @@ namespace ShoeStore.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IOrderManagerService _orderManagerService;
        
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService , IOrderManagerService orderManagerService)
         {
             _orderService = orderService;
+            _orderManagerService = orderManagerService;
         }
 
         [HttpGet("{id}")]
@@ -39,7 +41,7 @@ namespace ShoeStore.Controllers
         [HttpPost("{orderId}/order-items")]
         public async Task<ActionResult<OrderDTO>> AddOrderItem(int orderId,[FromBody] OrderItemDTO dto)
         {
-            await _orderService.AddOrderItemAsync(orderId, dto);
+            await _orderManagerService.AddOrderItemAsync(orderId, dto); // burada pattern bozuldu mu acaba ?
             var updatedOrder = await _orderService.GetOrderByIdAsync(orderId);
             return CreatedAtAction(nameof(GetOrderById), new { id = orderId }, updatedOrder);
         }
@@ -47,7 +49,7 @@ namespace ShoeStore.Controllers
         [HttpPost("{orderId}/payment")]
         public async Task<ActionResult<OrderDTO>> AddPayment(int orderId,[FromBody] PaymentDTO dto)
         {
-            var updatedOrder = await _orderService.AddPaymentAsync(orderId, dto);
+            var updatedOrder = await _orderManagerService.AddPaymentAsync(orderId, dto); // burada pattern bozuldu mu acaba ?
             return CreatedAtAction(nameof(GetOrderById), new { id = orderId }, updatedOrder);
         }
 

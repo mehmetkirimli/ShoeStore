@@ -17,11 +17,14 @@ namespace ShoeStore.Services
             _mapper = mapper;
         }
 
-        public Task AddOrderItemAsync(OrderItemDTO dto)
+        public async Task<OrderItemDTO> AddOrderItemAsync(OrderItemDTO dto)
         {
             var orderItem = _mapper.Map<OrderItem>(dto);
-            return _orderItemRepository.AddAsync(orderItem);
+            await _orderItemRepository.AddAsync(orderItem); // Kaydı DB'ye ekliyoruz
+
+            return _mapper.Map<OrderItemDTO>(orderItem); // Kaydedilen nesneyi geri döndür
         }
+
 
         public Task DeleteOrderItemAsync(int id)
         {

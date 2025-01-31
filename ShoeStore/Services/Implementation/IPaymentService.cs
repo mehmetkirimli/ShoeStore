@@ -13,5 +13,6 @@ namespace ShoeStore.Services.Implementation
         Task<ICollection<PaymentDTO>> GetAllPayment();
         Task<PaymentDTO> GetPaymentByIdAsync(int id);
         Task<List<PaymentDTO>> GetPaymentListByStatus(PaymentStatus paymentStatus);
+        Task<PaymentResultDTO> ProcessPaymentAsync(PaymentDTO dto);
     }
 }

@@ -59,5 +59,29 @@ namespace ShoeStore.Services
             return _mapper.Map<List<ProductDTO>>(products);
         }
 
+        public async Task<bool> CheckStockAsync(int productId, int quantity)
+        {
+            var product = await _productRepository.GetByIdAsync(productId);
+            if (product == null)
+                throw new Exception("Ürün bulunamadı!");
+
+            return product.Stock >= quantity; // Stok yeterli mi?
+        }
+
+        public async Task DecreaseStockAsync(int productId, int quantity)
+        {
+            var product = await _productRepository.GetByIdAsync(productId);
+            if (product == null)
+                throw new Exception("Ürün bulunamadı!");
+
+            if (product.Stock < quantity)
+                throw new Exception($"{product.Name} için yeterli stok bulunmuyor!");
+
+            product.Stock -= quantity; // Stoktan düş
+            await _productRepository.UpdateAsync(product); // Güncelle
+        }
+
+
+
     }
 }

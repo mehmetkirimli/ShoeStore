@@ -12,11 +12,10 @@ namespace ShoeStore.Services
         private readonly IRepository<Order> _orderRepository;
         private readonly IMapper _mapper;
 
-        public OrderService(IRepository<Order> orderRepo, IMapper mapper, IPaymentService paymentService)
+        public OrderService(IRepository<Order> orderRepo, IMapper mapper)
         {
             this._orderRepository = orderRepo;
             this._mapper = mapper;
-            this._paymentService = paymentService;
         }
         public async Task AddOrderAsync(OrderDTO dto)
         {

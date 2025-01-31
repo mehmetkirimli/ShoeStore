@@ -91,5 +91,23 @@ namespace ShoeStore.Services
             }
             throw new Exception("Payment not found");
         }
+
+        public async Task<PaymentResultDTO> ProcessPaymentAsync(PaymentDTO dto)
+        {
+            // Ödeme sürecini simüle et (gerçek banka entegrasyonu burada olurdu)
+            await Task.Delay(2000); // 2 saniye beklet, sanki banka ile iletişim varmış gibi
+
+            // Rastgele ödeme sonucu üret (Gerçek sistemde buraya banka API'si entegrasyonu yapılırdı)
+            bool isSuccess = new Random().Next(0, 2) == 1;
+
+            return new PaymentResultDTO
+            {
+                IsSuccess = isSuccess,
+                Message = isSuccess ? "Ödeme başarılı!" : "Ödeme başarısız!",
+                TransactionId =isSuccess ? Guid.NewGuid().ToString() : null, // işlem numarası başarılı olursa döner
+                ErrorCode = isSuccess ? null : "PMT_001" // hata kodu başarısız olursa döner
+            };
+        }
+
     }
 }

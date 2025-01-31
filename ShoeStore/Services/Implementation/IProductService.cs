@@ -11,5 +11,7 @@ namespace ShoeStore.Services.Implementation
         Task DeleteProductAsync(int id);
         Task<IEnumerable<ProductDTO>> GetAllProductsAsync();
         Task<List<ProductDTO>> GetProductListByCategory(int categoryId);
+        Task<bool> CheckStockAsync(int productId, int quantity);
+        Task DecreaseStockAsync(int productId, int quantity);
     }
 }

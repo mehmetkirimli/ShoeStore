@@ -11,6 +11,7 @@ namespace ShoeStore.DTO
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }
         public int? PaymentId { get; set; }
+        public OrderCreateStatus OrderCreateStatus { get; set; } // Enum
     }
 
 }
