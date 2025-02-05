@@ -55,5 +55,19 @@ namespace ShoeStore.Services
             List<Order> orders = await _orderRepository.FindByConditionAsync(order => order.OrderStatus == status, p => p.OrderStatus);
             return _mapper.Map<List<OrderDTO>>(orders);
         }
+        public async Task<Order> GetOrderEntityByIdAsync(int orderId) 
+        {
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            if (order == null) 
+            {
+                throw new Exception("Order Not Found !");
+            }
+            return order;
+        }
+        public async Task SaveChanges()
+        {
+            await _orderRepository.SaveChangesAsync();
+        }
     }
+
 }

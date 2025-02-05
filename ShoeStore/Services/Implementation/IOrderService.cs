@@ -12,5 +12,7 @@ namespace ShoeStore.Services.Implementation
         Task<IEnumerable<OrderDTO>> GetAllOrderAsync();
         Task<List<OrderDTO>> GetOrderListByStatus(OrderStatus status);
         Task AddOrderAsync(OrderDTO dto);
+        Task<Order> GetOrderEntityByIdAsync(int orderId);
+        Task SaveChanges();
     }
 }

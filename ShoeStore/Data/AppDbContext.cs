@@ -44,6 +44,23 @@ namespace ShoeStore.Data
                 .HasForeignKey(oi => oi.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);  // Sipariş silindiğinde sipariş kalemleri de silinir
 
+            // **Decimal Alanlar İçin HasPrecision Ayarları**
+            modelBuilder.Entity<Order>()
+                .Property(o => o.TotalAmount)
+                .HasPrecision(18, 2); // Virgülden önce 16, sonra 2 basamak
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(oi => oi.Price)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.Amount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasPrecision(18, 2);
+
             base.OnModelCreating(modelBuilder);
         }
     }

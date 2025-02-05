@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using ShoeStore.Data;
+using ShoeStore.Entities;
 using ShoeStore.Repositories.Implementation;
 
 namespace ShoeStore.Repositories // Bu sınıf temel CRUD işlemleri yapıcak.
@@ -24,6 +25,17 @@ namespace ShoeStore.Repositories // Bu sınıf temel CRUD işlemleri yapıcak.
             await _context.SaveChangesAsync(); // Db'de güncelleme yapması için
         }
 
+        public async Task UpdateAsync(T entity)
+        {
+            _dbSet.Update(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
         public async Task DeleteAsync(int id)
         {
             var data = await GetByIdAsync(id);
@@ -42,12 +54,6 @@ namespace ShoeStore.Repositories // Bu sınıf temel CRUD işlemleri yapıcak.
         public async Task<T> GetByIdAsync(int id)
         {
             return await _dbSet.FindAsync(id);
-        }
-
-        public async Task UpdateAsync(T entity)
-        {
-           _dbSet.Update(entity);
-           await _context.SaveChangesAsync();
         }
 
         public async Task<List<T>> FindByConditionAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)

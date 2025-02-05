@@ -12,5 +12,6 @@ namespace ShoeStore.Repositories.Implementation
         Task DeleteAsync(int id); // T entity olabilir de
         Task<List<T>> FindByConditionAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
         Task<IDbContextTransaction> BeginTransactionAsync();
+        Task SaveChangesAsync();
     }
 }

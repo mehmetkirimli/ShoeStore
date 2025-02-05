@@ -32,21 +32,30 @@ namespace ShoeStore.Services
 
         public async Task AddOrderItemAsync(int orderId, OrderItemDTO dto)
         {
-            //orderItem
-            var orderItem = _mapper.Map<OrderItem>(dto);
-            var savedOrderItemDto = await _orderItemService.AddOrderItemAsync(dto);  // Db'ye OrderItem eklenir.
+            var order = await _orderService.GetOrderEntityByIdAsync(orderId);
 
-            //orderService
-            var orderDto = await _orderService.GetOrderByIdAsync(orderId);  // Order'a eklenir.
-            if (orderDto.OrderItems == null)
+            if(order == null) 
             {
-                orderDto.OrderItems = new List<OrderItemDTO>();
+                throw new Exception("Order not found !");
             }
 
-            orderDto.OrderItems.Add(savedOrderItemDto);
-            orderDto.OrderCreateStatus = OrderCreateStatus.ProductsAdded;  // Durumu "Ürünler Eklendi,Ödeme yapılmadı" olarak ayarla.
+            //orderItem
+            var orderItem = _mapper.Map<OrderItem>(dto);
+            orderItem.OrderId = orderId;
 
-            await _orderService.UpdateOrderAsync(orderDto);
+            //await _orderItemService.AddOrderItemAsync(dto);  // Db'ye OrderItem eklenir.
+
+            //orderService
+            if (order.OrderItems == null)
+            {
+                order.OrderItems = new List<OrderItem>();
+            }
+
+            order.TotalAmount += (dto.Quantity * dto.Price);
+            order.OrderItems.Add(orderItem); // yukarıdaki durumu bu zaten ekliyor EF bunu bizim yerimize yapıyor.
+            order.OrderCreateStatus = OrderCreateStatus.ProductsAdded;  // Durumu "Ürünler Eklendi,Ödeme yapılmadı" olarak ayarla.
+
+            await _orderService.SaveChanges();
         }
 
 
